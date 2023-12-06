@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   InAppWebViewController? inAppWebViewController;
+  TextEditingController txtSearch = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +74,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.grey.shade200,
                 child: Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(10),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
                       child: TextField(
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             labelText: 'Search or type web address',
-                            suffixIcon: Icon(Icons.search)),
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  inAppWebViewController?.loadUrl(
+                                    urlRequest: URLRequest(
+                                      url: Uri.parse(
+                                          'https://www.google.com/search?q=${txtSearch.text}'),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.search))),
                       ),
                     ),
                     Row(
