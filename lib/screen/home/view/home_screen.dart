@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  InAppWebViewController? inAppWebViewController;
+  static InAppWebViewController? inAppWebViewController;
   TextEditingController txtSearch = TextEditingController();
   NetworkConnection networkConnection = NetworkConnection();
   HomeProvider? providerr;
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('MY Browser'),
+          title: const Text('My Browser'),
           centerTitle: true,
           actions: [
             PopupMenuButton(
