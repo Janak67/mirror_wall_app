@@ -1,14 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShareHelper {
-  Future<void> setBookmarkData() async {
+  Future<void> setBookmarkData(List<String> bookMarkData) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool('bookmark', true);
+    sharedPreferences.setStringList('Url', bookMarkData);
   }
 
-  Future<bool?> getBookmarkData() async {
+  Future<List<String>?> getBookmarkData() async {
     SharedPreferences shr = await SharedPreferences.getInstance();
-    bool? data = await shr.getBool('bookmark');
-    return data;
+    return shr.getStringList('Url');
   }
 }

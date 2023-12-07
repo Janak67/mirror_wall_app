@@ -6,6 +6,8 @@ import 'package:mirror_wall_app/widget/bottom_sheet.dart';
 import 'package:mirror_wall_app/widget/show_dialog.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/share_helper.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -98,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: TextField(
+                              controller: txtSearch,
                               decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
                                   labelText: 'Search or type web address',
@@ -130,7 +133,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.black),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  String uri =
+                                      (await inAppWebViewController!.getUrl())
+                                          .toString();
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<HomeProvider>()
+                                      .bookMarkData!
+                                      .add(uri);
+                                  ShareHelper shareHelper = ShareHelper();
+                                  // ignore: use_build_context_synchronously
+                                  await shareHelper.setBookmarkData(context
+                                      .read<HomeProvider>()
+                                      .bookMarkData!);
+
+                                  // ignore: use_build_context_synchronously
+                                  context.read<HomeProvider>().getBookMark();
+                                },
                                 icon: const Icon(Icons.bookmark_add_outlined,
                                     color: Colors.black),
                               ),
