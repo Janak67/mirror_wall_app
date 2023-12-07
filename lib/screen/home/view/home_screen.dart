@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:mirror_wall_app/screen/home/provider/home_provider.dart';
+import 'package:mirror_wall_app/utils/network.dart';
+import 'package:mirror_wall_app/widget/bottom_sheet.dart';
 import 'package:mirror_wall_app/widget/show_dialog.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,9 +16,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   InAppWebViewController? inAppWebViewController;
   TextEditingController txtSearch = TextEditingController();
+  NetworkConnection networkConnection = NetworkConnection();
+  HomeProvider? providerr;
+  HomeProvider? providerw;
+
+  @override
+  void initState() {
+    super.initState();
+    networkConnection.checkConnection(context);
+  }
 
   @override
   Widget build(BuildContext context) {
+    providerw = context.watch<HomeProvider>();
+    providerr = context.read<HomeProvider>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -24,13 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
             PopupMenuButton(
               itemBuilder: (context) {
                 return [
-                  const PopupMenuItem(
-                    child: Row(
-                      children: [
-                        Icon(Icons.bookmark),
-                        SizedBox(width: 10),
-                        Text('All Bookmarks'),
-                      ],
+                  PopupMenuItem(
+                    child: InkWell(
+                      onTap: () {
+                        bookModelBottomSheet(context);
+                      },
+                      child: const Row(
+                        children: [
+                          Icon(Icons.bookmark),
+                          SizedBox(width: 10),
+                          Text('All Bookmarks'),
+                        ],
+                      ),
                     ),
                   ),
                   PopupMenuItem(
@@ -52,96 +72,104 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: Stack(
-          children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: Uri.parse('https://www.google.com/'),
-              ),
-              onLoadStart: (controller, url) =>
-                  inAppWebViewController = controller,
-              onLoadStop: (controller, url) =>
-                  inAppWebViewController = controller,
-              onProgressChanged: (controller, progress) =>
-                  inAppWebViewController = controller,
-              onLoadError: (controller, url, code, message) =>
-                  inAppWebViewController = controller,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: MediaQuery.sizeOf(context).height * 0.16,
-                color: Colors.grey.shade200,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            labelText: 'Search or type web address',
-                            suffixIcon: IconButton(
+        body: providerw!.isOnline
+            ? Stack(
+                children: [
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(
+                      url: Uri.parse('https://www.google.com/'),
+                    ),
+                    onLoadStart: (controller, url) =>
+                        inAppWebViewController = controller,
+                    onLoadStop: (controller, url) =>
+                        inAppWebViewController = controller,
+                    onProgressChanged: (controller, progress) =>
+                        inAppWebViewController = controller,
+                    onLoadError: (controller, url, code, message) =>
+                        inAppWebViewController = controller,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: MediaQuery.sizeOf(context).height * 0.16,
+                      color: Colors.grey.shade200,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: 'Search or type web address',
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        inAppWebViewController?.loadUrl(
+                                          urlRequest: URLRequest(
+                                            url: Uri.parse(
+                                                'https://www.google.com/search?q=${txtSearch.text}'),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.search))),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
                                 onPressed: () {
-                                  inAppWebViewController?.loadUrl(
+                                  inAppWebViewController!.loadUrl(
                                     urlRequest: URLRequest(
                                       url: Uri.parse(
-                                          'https://www.google.com/search?q=${txtSearch.text}'),
+                                        'https://www.google.com/',
+                                      ),
                                     ),
                                   );
                                 },
-                                icon: const Icon(Icons.search))),
+                                icon: const Icon(Icons.home_outlined,
+                                    color: Colors.black),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.bookmark_add_outlined,
+                                    color: Colors.black),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  inAppWebViewController!.goBack();
+                                },
+                                icon: const Icon(Icons.arrow_back_ios_outlined,
+                                    color: Colors.black),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  inAppWebViewController!.reload();
+                                },
+                                icon: const Icon(Icons.refresh_outlined,
+                                    color: Colors.black),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  inAppWebViewController!.goForward();
+                                },
+                                icon: const Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            inAppWebViewController!.loadUrl(
-                              urlRequest: URLRequest(
-                                url: Uri.parse(
-                                  'https://www.google.com/',
-                                ),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.home_outlined,
-                              color: Colors.black),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.bookmark_add_outlined,
-                              color: Colors.black),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            inAppWebViewController!.goBack();
-                          },
-                          icon: const Icon(Icons.arrow_back_ios_outlined,
-                              color: Colors.black),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            inAppWebViewController!.reload();
-                          },
-                          icon: const Icon(Icons.refresh_outlined,
-                              color: Colors.black),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            inAppWebViewController!.goForward();
-                          },
-                          icon: const Icon(Icons.arrow_forward_ios_outlined,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
+                ],
+              )
+            : const Center(
+                child: Text(
+                  'please check Internet Connection',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
