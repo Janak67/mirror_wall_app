@@ -12,19 +12,26 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   static InAppWebViewController? inAppWebViewController;
   TextEditingController txtSearch = TextEditingController();
   NetworkConnection networkConnection = NetworkConnection();
   HomeProvider? providerr;
   HomeProvider? providerw;
+  static PullToRefreshController? pullToRefreshController;
 
   @override
   void initState() {
     super.initState();
+    pullToRefreshController = PullToRefreshController(
+      options: PullToRefreshOptions(color: Colors.blue),
+      onRefresh: () async {
+        await inAppWebViewController?.reload();
+      },
+    );
     networkConnection.checkConnection(context);
   }
 
@@ -78,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Stack(
                 children: [
                   InAppWebView(
+                    pullToRefreshController: pullToRefreshController,
                     initialUrlRequest: URLRequest(
                       url: Uri.parse('https://www.google.com/'),
                     ),
@@ -85,8 +93,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         inAppWebViewController = controller,
                     onLoadStop: (controller, url) =>
                         inAppWebViewController = controller,
-                    onProgressChanged: (controller, progress) =>
-                        inAppWebViewController = controller,
+                    onProgressChanged: (controller, progress) {
+                      inAppWebViewController = controller;
+                      providerw!.progressStatus(progress);
+                      if (progress == 100) {
+                        pullToRefreshController?.endRefreshing();
+                      }
+                    },
                     onLoadError: (controller, url, code, message) =>
                         inAppWebViewController = controller,
                   ),
@@ -115,6 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                       icon: const Icon(Icons.search))),
                             ),
+                          ),
+                          LinearProgressIndicator(
+                            color: Colors.blue,
+                            value: providerr!.progressValue,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -147,7 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   await shareHelper.setBookmarkData(context
                                       .read<HomeProvider>()
                                       .bookMarkData!);
-
                                   // ignore: use_build_context_synchronously
                                   context.read<HomeProvider>().getBookMark();
                                 },

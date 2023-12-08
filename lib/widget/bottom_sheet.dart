@@ -7,13 +7,12 @@ void bookModelBottomSheet(BuildContext context) {
     context: context,
     builder: (context) {
       return SizedBox(
-        height: MediaQuery.sizeOf(context).height*0.95,
+        height: MediaQuery.sizeOf(context).height * 0.95,
         child: ListView.builder(
           itemCount: context.read<HomeProvider>().bookMarkData!.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(
-                  "https://www.google.com/search?q ${context.read<HomeProvider>().bookMarkData![index]}"),
+              title: Text(context.read<HomeProvider>().bookMarkData![index]),
             );
           },
         ),

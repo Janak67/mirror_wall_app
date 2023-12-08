@@ -15,6 +15,7 @@ void main() {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(useMaterial3: true),
         routes: screen_routes,
+        title: "Mirror",
       ),
     ),
   );

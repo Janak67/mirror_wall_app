@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:mirror_wall_app/screen/home/provider/home_provider.dart';
+import 'package:provider/provider.dart';
+import '../screen/home/view/home_screen.dart';
 
 void showWebDialog(BuildContext context) {
-  InAppWebViewController? inAppWebViewController;
   showDialog(
     context: context,
     builder: (context) {
+      final searchProvider = context.read<HomeProvider>();
       return AlertDialog(
         title: const Center(
           child: Text('Search Engine'),
@@ -15,9 +18,17 @@ void showWebDialog(BuildContext context) {
           children: [
             RadioListTile(
               title: const Text('Google'),
-              value: 'https://www.google.com/',
-              groupValue: 1,
-              onChanged: (value) {},
+              value: 'Google',
+              groupValue: searchProvider.martialLink,
+              onChanged: (value) {
+                searchProvider.setmartialStatus(value.toString());
+                HomeScreenState.inAppWebViewController!.loadUrl(
+                  urlRequest: URLRequest(
+                    url: Uri.parse('https://www.google.com/'),
+                  ),
+                );
+                Navigator.pop(context);
+              },
               // context.read<HomeProvider>().p1.PopMenuItemURI,
               // onChanged: (value) {
               //   context.read<HomeProvider>().getValueURI(value);
@@ -31,22 +42,46 @@ void showWebDialog(BuildContext context) {
               // },
             ),
             RadioListTile(
-              value: 'https://in.yahoo.com',
-              groupValue: 1,
+              value: 'Yahoo',
+              groupValue: searchProvider.martialLink,
               title: const Text('Yahoo'),
-              onChanged: (value) {},
+              onChanged: (value) {
+                searchProvider.setmartialStatus(value.toString());
+                HomeScreenState.inAppWebViewController!.loadUrl(
+                  urlRequest: URLRequest(
+                    url: Uri.parse('https://in.yahoo.com'),
+                  ),
+                );
+                Navigator.pop(context);
+              },
             ),
             RadioListTile(
-              value: 'https://www.bing.com/',
-              groupValue: 1,
+              value: 'Bing',
+              groupValue: searchProvider.martialLink,
               title: const Text('Bing'),
-              onChanged: (value) {},
+              onChanged: (value) {
+                searchProvider.setmartialStatus(value.toString());
+                HomeScreenState.inAppWebViewController!.loadUrl(
+                  urlRequest: URLRequest(
+                    url: Uri.parse('https://www.bing.com/'),
+                  ),
+                );
+                Navigator.pop(context);
+              },
             ),
             RadioListTile(
-              value: 'https://duckduckgo.com',
-              groupValue: 1,
+              value: 'Duck Duck Go',
+              groupValue: searchProvider.martialLink,
               title: const Text('Duck Duck Go'),
-              onChanged: (value) {},
+              onChanged: (value) {
+                searchProvider.setmartialStatus(value.toString());
+                HomeScreenState.inAppWebViewController!.loadUrl(
+                  urlRequest: URLRequest(
+                    url: Uri.parse('https://duckduckgo.com'),
+                  ),
+                );
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
