@@ -7,7 +7,7 @@ class HomeProvider with ChangeNotifier {
   List<String>? bookMarkData = [];
   String martialLink = 'Google';
   double progressValue = 0;
-  PullToRefreshController? pullToRefreshController;
+  // PullToRefreshController? pullToRefreshController;
 
   String get martialStatus => martialLink;
 
@@ -31,9 +31,10 @@ class HomeProvider with ChangeNotifier {
     martialLink = value;
     notifyListeners();
   }
-  void pullToRefresh(progress){
-    if (progress == 100) {
-      pullToRefreshController?.endRefreshing();
-    }
-  }
+  // void pullToRefresh(progress){
+  //   if (progress == 100) {
+  //     pullToRefreshController?.endRefreshing();
+  //   }
+  //   notifyListeners();
+  // }
 }

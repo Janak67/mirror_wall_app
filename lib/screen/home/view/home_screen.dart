@@ -95,7 +95,10 @@ class HomeScreenState extends State<HomeScreen> {
                     onProgressChanged: (controller, progress) {
                       inAppWebViewController = controller;
                       providerw!.progressStatus(progress);
-                      providerr!.pullToRefresh(progress);
+                      if (progress == 100) {
+                        pullToRefreshController?.endRefreshing();
+                      }
+                      // providerr!.pullToRefresh(progress);
                     },
                     onLoadError: (controller, url, code, message) =>
                         inAppWebViewController = controller,
