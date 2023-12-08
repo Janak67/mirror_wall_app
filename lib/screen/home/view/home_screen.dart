@@ -107,7 +107,7 @@ class HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       height: MediaQuery.sizeOf(context).height * 0.16,
-                      color: Colors.grey.shade200,
+                      color: Colors.white,
                       child: Column(
                         children: [
                           Padding(
@@ -130,8 +130,9 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           LinearProgressIndicator(
-                            color: Colors.blue,
+                            color: const Color(0xff6054c1),
                             value: providerr!.progressValue,
+                            backgroundColor: Colors.indigo.shade100,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
