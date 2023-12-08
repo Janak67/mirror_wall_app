@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirror_wall_app/utils/share_helper.dart';
 
 class HomeProvider with ChangeNotifier {
@@ -6,6 +7,7 @@ class HomeProvider with ChangeNotifier {
   List<String>? bookMarkData = [];
   String martialLink = 'Google';
   double progressValue = 0;
+  PullToRefreshController? pullToRefreshController;
 
   String get martialStatus => martialLink;
 
@@ -28,5 +30,10 @@ class HomeProvider with ChangeNotifier {
   void setmartialStatus(String value) {
     martialLink = value;
     notifyListeners();
+  }
+  void pullToRefresh(progress){
+    if (progress == 100) {
+      pullToRefreshController?.endRefreshing();
+    }
   }
 }

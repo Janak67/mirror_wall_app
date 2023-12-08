@@ -5,7 +5,6 @@ import 'package:mirror_wall_app/utils/network.dart';
 import 'package:mirror_wall_app/widget/bottom_sheet.dart';
 import 'package:mirror_wall_app/widget/show_dialog.dart';
 import 'package:provider/provider.dart';
-
 import '../../../utils/share_helper.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -96,9 +95,7 @@ class HomeScreenState extends State<HomeScreen> {
                     onProgressChanged: (controller, progress) {
                       inAppWebViewController = controller;
                       providerw!.progressStatus(progress);
-                      if (progress == 100) {
-                        pullToRefreshController?.endRefreshing();
-                      }
+                      providerw!.pullToRefresh(progress);
                     },
                     onLoadError: (controller, url, code, message) =>
                         inAppWebViewController = controller,
