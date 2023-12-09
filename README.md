@@ -23,4 +23,3 @@ samples, guidance on mobile development, and a full API reference.
   <img src = 'https://github.com/Janak67/mirror_wall_app/assets/141834407/9a532a52-1d9d-4635-b11d-eedd1fe9aaab' height='380' width='200'>
   <img src = 'https://github.com/Janak67/mirror_wall_app/assets/141834407/6712bd54-4a7f-491c-a3d4-ba62119f6e3d' height='380' width='200'>
 </p>
-Hello 
