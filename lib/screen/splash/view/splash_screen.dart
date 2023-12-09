@@ -11,7 +11,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 10),
       () {
         Navigator.pushReplacementNamed(context, 'home');
       },
@@ -20,9 +20,26 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: Center(
-          child: Image.asset(
-            'assets/img/yahoo.png',
-            height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/img/google.png',
+                height: 45,
+              ),
+              Image.asset(
+                'assets/img/yahoo.png',
+                height: 45,
+              ),
+              Image.asset(
+                'assets/img/bing.png',
+                height: 45,
+              ),
+              Image.asset(
+                'assets/img/duckduckgo.png',
+                height: 45,
+              ),
+            ],
           ),
         ),
       ),
