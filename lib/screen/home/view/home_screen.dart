@@ -202,9 +202,19 @@ class HomeScreenState extends State<HomeScreen> {
                 ],
               )
             : const Center(
-                child: Text(
-                  'please check Internet Connection',
-                  style: TextStyle(fontSize: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/img/no-Internet.png'),
+                      height: 100,
+                      width: 100,
+                    ),
+                    Text(
+                      'please check Internet Connection',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
                 ),
               ),
       ),
