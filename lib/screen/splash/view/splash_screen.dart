@@ -19,28 +19,38 @@ class _SplashScreenState extends State<SplashScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Align(
+              alignment: const Alignment(-0.25, 0),
+              child: Image.asset(
                 'assets/img/google.png',
                 height: 45,
               ),
-              Image.asset(
+            ),
+            Align(
+              alignment: const Alignment(-0.1, 0),
+              child: Image.asset(
                 'assets/img/yahoo.png',
                 height: 45,
               ),
-              Image.asset(
+            ),
+            Align(
+              alignment: const Alignment(0.1, 0),
+              child: Image.asset(
                 'assets/img/bing.png',
                 height: 45,
               ),
-              Image.asset(
+            ),
+            Align(
+              alignment: const Alignment(0.25, 0),
+              child: Image.asset(
                 'assets/img/duckduckgo.png',
-                height: 45,
+                height: 50,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

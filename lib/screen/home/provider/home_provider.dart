@@ -37,10 +37,11 @@ class HomeProvider with ChangeNotifier {
     bookMarkData!.removeAt(infoIndex!);
     notifyListeners();
   }
-// void pullToRefresh(progress){
-//   if (progress == 100) {
-//     pullToRefreshController?.endRefreshing();
-//   }
-//   notifyListeners();
-// }
+
+  // void pullToRefresh(progress) {
+  //   if (progress == 100) {
+  //     pullToRefreshController?.endRefreshing();
+  //   }
+  //   notifyListeners();
+  // }
 }

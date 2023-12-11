@@ -14,7 +14,6 @@ void bookModelBottomSheet(BuildContext context) {
             trailing: IconButton(
               onPressed: () {
                 context.read<HomeProvider>().deleteBookMark();
-                Navigator.pop(context);
               },
               icon: const Icon(Icons.delete),
             ),
