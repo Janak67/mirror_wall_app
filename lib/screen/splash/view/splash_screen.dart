@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mirror_wall_app/screen/home/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,13 +11,19 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    context.read<HomeProvider>().getBookMark();
     Future.delayed(
       const Duration(seconds: 3),
-      () {
+          () {
         Navigator.pushReplacementNamed(context, 'home');
       },
     );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
