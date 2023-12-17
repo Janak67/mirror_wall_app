@@ -15,14 +15,21 @@ class _SplashScreenState extends State<SplashScreen> {
     context.read<HomeProvider>().getBookMark();
     Future.delayed(
       const Duration(seconds: 3),
-          () {
+      () {
         Navigator.pushReplacementNamed(context, 'home');
       },
     );
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(
+    //   const Duration(seconds: 3),
+    //       () {
+    //     Navigator.pushReplacementNamed(context, 'home');
+    //   },
+    // );
 
     return SafeArea(
       child: Scaffold(
